@@ -10,11 +10,9 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f2f2f2;--sur:#fff;--sur2:#ebebeb;
-  --bdr:#ddd;--bdr2:#bbb;--txt:#111;--mut:#666;
-  --acc:#c0392b;--acc2:#a93226;--acl:#fdf0ef;
-  --grn:#27ae60;--nvy:#1a1a2e;
-  --f:Arial,Helvetica,sans-serif;--r:8px
+  --bg:#f2f2f2;--sur:#fff;--sur2:#ebebeb;--bdr:#ddd;--bdr2:#bbb;
+  --txt:#111;--mut:#666;--acc:#c0392b;--acc2:#a93226;--acl:#fdf0ef;
+  --grn:#27ae60;--nvy:#1a1a2e;--f:Arial,Helvetica,sans-serif;--r:8px
 }
 html{font-size:16px}
 body{background:var(--bg);color:var(--txt);font-family:var(--f);min-height:100vh}
@@ -153,15 +151,10 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
 .srow{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
 .srow label{font-size:.93rem;font-weight:700}
 .srow small{font-size:.8rem;color:var(--mut)}
-.sinp{padding:9px 12px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--bg);font-size:.95rem;font-family:var(--f);color:var(--txt);width:100%;max-width:540px}
-.sinp:focus{outline:none;border-color:var(--acc)}
-.tmsg{font-size:.88rem;padding:8px 12px;border-radius:var(--r);margin-top:9px;display:none;font-weight:700}
-.tmsg.ok{background:#edfaf3;color:var(--grn);border:1px solid #a3e4c1}
-.tmsg.er{background:var(--acl);color:var(--acc);border:1px solid #f5b7b1}
 .brow{display:flex;gap:8px;flex-wrap:wrap}
 
 /* COLUMN TOGGLES */
-.ctog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:.5rem}
+.ctog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:.8rem}
 .ctog{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);cursor:pointer;transition:all .12s;user-select:none}
 .ctog:hover{border-color:var(--acc)}
 .ctog.on{background:#edfaf3;border-color:var(--grn)}
@@ -186,7 +179,7 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
     </div>
     <div class="tr">
       <div class="chip" id="dchip"></div>
-      <div class="spill"><div class="sdot" id="sdot"></div><span id="stxt">No sheet URL</span></div>
+      <div class="spill"><div class="sdot" id="sdot"></div><span id="stxt">Loading...</span></div>
     </div>
   </div>
 
@@ -211,7 +204,7 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
     </div>
     <div class="mets" id="mets"></div>
     <div class="twrap">
-      <table id="tbl">
+      <table>
         <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
         <tfoot id="tfoot"></tfoot>
@@ -250,51 +243,26 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
   <!-- SETTINGS -->
   <div id="settings" class="sec">
 
-    <!-- Google Sheets -->
     <div class="sc">
-      <h3>&#128209; Google Sheets Sync</h3>
-      <div class="srow">
-        <label>Apps Script Web App URL</label>
-        <small>Paste your deployed Web App URL here. See setup guide below.</small>
-        <input type="text" class="sinp" id="surl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec"/>
-      </div>
-      <div class="brow">
-        <button class="btn br" onclick="saveSettings()">Save URL</button>
+      <h3>&#128209; Google Sheets — Current URL</h3>
+      <p style="font-size:.9rem;color:var(--mut);margin-bottom:.8rem">To change the Sheet URL, edit the <strong>SHEET_URL</strong> variable at the top of the HTML file (line 1 of the script section).</p>
+      <div style="background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;font-family:monospace;font-size:.82rem;color:var(--mut);word-break:break-all" id="url-display"></div>
+      <div style="margin-top:1rem" class="brow">
         <button class="btn bo" onclick="testConn()">&#10003; Test Connection</button>
         <button class="btn bo" onclick="pullSheet()">&#8595; Pull from Sheet</button>
       </div>
-      <div class="tmsg" id="tmsg"></div>
+      <div id="tmsg" style="display:none;margin-top:.8rem;padding:9px 13px;border-radius:var(--r);font-size:.9rem;font-weight:700"></div>
     </div>
 
-    <!-- Column Visibility -->
     <div class="sc">
       <h3>&#128065; Show / Hide Sales Channels</h3>
-      <small style="color:var(--mut);font-size:.88rem">Toggle channels on or off. Hidden channels won't appear in the table or metrics but data is kept.</small>
+      <p style="font-size:.85rem;color:var(--mut)">Hidden channels won't appear in the table or metrics. Data is kept safely.</p>
       <div class="ctog-grid" id="ctogs"></div>
-      <div style="margin-top:1rem">
-        <button class="btn bo" onclick="showAllCols()">Show All</button>
-      </div>
+      <div style="margin-top:1rem"><button class="btn bo" onclick="showAllCols()">Show All</button></div>
     </div>
 
-    <!-- Setup Guide -->
     <div class="sc">
-      <h3>&#128274; Google Sheets Setup Guide</h3>
-      <ol style="padding-left:1.4rem;line-height:2.2;font-size:.95rem;color:var(--mut)">
-        <li>Open your Google Sheet → <strong style="color:var(--txt)">Extensions → Apps Script</strong></li>
-        <li>Delete all existing code, paste the full <strong style="color:var(--txt)">google-apps-script.gs</strong> contents</li>
-        <li>Press <strong style="color:var(--txt)">Ctrl+S</strong> to save</li>
-        <li>Click <strong style="color:var(--txt)">Deploy → New deployment</strong></li>
-        <li>Click the <strong style="color:var(--txt)">gear icon ⚙ → Web app</strong></li>
-        <li>Execute as: <strong style="color:var(--txt)">Me</strong> &nbsp;|&nbsp; Who has access: <strong style="color:var(--txt)">Anyone</strong></li>
-        <li>Click <strong style="color:var(--txt)">Deploy → Authorise access → Allow</strong></li>
-        <li>Copy the <strong style="color:var(--txt)">Web App URL</strong> → paste above → Save URL</li>
-        <li style="color:#e67e22"><strong>Important:</strong> After any edits, always deploy as a <strong>New version</strong></li>
-      </ol>
-    </div>
-
-    <!-- Backup -->
-    <div class="sc">
-      <h3>&#128190; Data Backup &amp; Restore</h3>
+      <h3>&#128190; Backup &amp; Restore</h3>
       <div class="brow">
         <button class="btn bo" onclick="expJSON()">&#11123; Export Backup</button>
         <button class="btn bo" onclick="document.getElementById('impf').click()">&#11121; Import Backup</button>
@@ -308,13 +276,19 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════════════
-// DATA & CONFIG
-// ════════════════════════════════════════════════════════════
-const DB_KEY  = 'dst_v4';
-const CFG_KEY = 'dst_cfg4';
+// ╔══════════════════════════════════════════════════════════╗
+// ║  EDIT THIS LINE WITH YOUR GOOGLE APPS SCRIPT URL        ║
+// ║  Replace the URL between the quotes below               ║
+// ╚══════════════════════════════════════════════════════════╝
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxhIhrKf38yp5LvuR4i_-uBWKjkLcaR0ewQDthESZyqejwcwgNSDao5Y2QuzW0EKv0I/exec';
 
-const ALL_CATS = [
+// ════════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════════
+var DB_KEY  = 'dst_v4';
+var CFG_KEY = 'dst_cfg4';
+
+var ALL_CATS = [
   { key:'cash',      label:'Cash'      },
   { key:'card',      label:'Card'      },
   { key:'web',       label:'Web Sales' },
@@ -323,93 +297,98 @@ const ALL_CATS = [
   { key:'deliveroo', label:'Deliveroo' },
   { key:'foodhub',   label:'Foodhub'   }
 ];
-const DAYS   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DAYS   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-let curMon = getMonday(new Date());
-let db     = lsGet(DB_KEY,  {});
-let cfg    = lsGet(CFG_KEY, { url:'', hidden:{} });
+var curMon = getMonday(new Date());
+var db     = lsGet(DB_KEY,  {});
+var cfg    = lsGet(CFG_KEY, { hidden:{} });
 if (!cfg.hidden) cfg.hidden = {};
 
-function lsGet(k, def){ try{ return JSON.parse(localStorage.getItem(k)||'null') || def }catch(e){ return def } }
-function lsSave(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)) }catch(e){} }
-function saveDB(){ lsSave(DB_KEY, db) }
-function saveCfg(){ lsSave(CFG_KEY, cfg) }
-
-// Active cats (not hidden)
-function activeCats(){ return ALL_CATS.filter(c => !cfg.hidden[c.key]) }
+function lsGet(k,def){ try{ return JSON.parse(localStorage.getItem(k)||'null')||def }catch(e){ return def } }
+function saveDB(){ try{ localStorage.setItem(DB_KEY, JSON.stringify(db)) }catch(e){} }
+function saveCfg(){ try{ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)) }catch(e){} }
+function activeCats(){ return ALL_CATS.filter(function(c){ return !cfg.hidden[c.key] }) }
 
 // ════════════════════════════════════════════════════════════
 // DATE HELPERS
 // ════════════════════════════════════════════════════════════
-function getMonday(d){ const dt=new Date(d), day=dt.getDay(), diff=dt.getDate()-day+(day===0?-6:1); dt.setDate(diff); dt.setHours(0,0,0,0); return dt }
+function getMonday(d){
+  var dt=new Date(d), day=dt.getDay(), diff=dt.getDate()-day+(day===0?-6:1);
+  dt.setDate(diff); dt.setHours(0,0,0,0); return dt;
+}
 function ds(d){ return d.toISOString().split('T')[0] }
 function isToday(d){ return ds(d)===ds(new Date()) }
-function wkDates(m){ return DAYS.map((_,i)=>{ const d=new Date(m); d.setDate(d.getDate()+i); return d }) }
+function wkDates(m){
+  return DAYS.map(function(_,i){ var d=new Date(m); d.setDate(d.getDate()+i); return d });
+}
 function fmtS(d){ return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}) }
-function fmtWk(m){ const e=new Date(m); e.setDate(e.getDate()+6); return fmtS(m)+' — '+fmtS(e)+' '+e.getFullYear() }
+function fmtWk(m){ var e=new Date(m); e.setDate(e.getDate()+6); return fmtS(m)+' — '+fmtS(e)+' '+e.getFullYear() }
 function wkKey(m){ return ds(m) }
-function getCell(w,d,k){ return db[w]?.[d]?.[k] ?? '' }
-function setCell(w,d,k,v){ if(!db[w])db[w]={}; if(!db[w][d])db[w][d]={}; const n=parseFloat(v); if(isNaN(n)||v==='')delete db[w][d][k]; else db[w][d][k]=n }
+function getCell(w,d,k){ return (db[w]&&db[w][d]&&db[w][d][k]!==undefined) ? db[w][d][k] : '' }
+function setCell(w,d,k,v){
+  if(!db[w])db[w]={}; if(!db[w][d])db[w][d]={};
+  var n=parseFloat(v);
+  if(isNaN(n)||v==='') delete db[w][d][k]; else db[w][d][k]=n;
+}
 
 // ════════════════════════════════════════════════════════════
-// RENDER WEEK TABLE
+// RENDER WEEK
 // ════════════════════════════════════════════════════════════
 function renderWeek(){
-  const w     = wkKey(curMon);
-  const dates = wkDates(curMon);
-  const cats  = activeCats();
+  var w     = wkKey(curMon);
+  var dates = wkDates(curMon);
+  var cats  = activeCats();
   document.getElementById('wlbl').textContent = fmtWk(curMon);
 
-  // Build header
-  const thead = document.getElementById('thead');
+  // Header
+  var thead = document.getElementById('thead');
   thead.innerHTML = '';
-  const hr = document.createElement('tr');
-  const th0 = document.createElement('th'); th0.style.textAlign='left'; th0.style.minWidth='95px'; th0.textContent='Day'; hr.appendChild(th0);
-  cats.forEach(c=>{ const th=document.createElement('th'); th.textContent=c.label; hr.appendChild(th) });
-  const thT = document.createElement('th'); thT.textContent='Total'; hr.appendChild(thT);
+  var hr = document.createElement('tr');
+  var th0 = document.createElement('th'); th0.style.textAlign='left'; th0.style.minWidth='95px'; th0.textContent='Day'; hr.appendChild(th0);
+  cats.forEach(function(c){ var th=document.createElement('th'); th.textContent=c.label; hr.appendChild(th) });
+  var thT = document.createElement('th'); thT.textContent='Total'; hr.appendChild(thT);
   thead.appendChild(hr);
 
-  const colT = new Array(cats.length).fill(0);
-  let grand  = 0;
+  var colT  = cats.map(function(){ return 0 });
+  var grand = 0;
 
-  // Build rows
-  const tbody = document.getElementById('tbody');
+  var tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
-  dates.forEach((date,di)=>{
-    const d  = ds(date);
-    let rowT = 0;
-    const tr = document.createElement('tr');
+
+  dates.forEach(function(date,di){
+    var d    = ds(date);
+    var rowT = 0;
+    var tr   = document.createElement('tr');
     if(isToday(date)) tr.className='tday';
 
-    const tdD = document.createElement('td'); tdD.className='dc';
-    tdD.innerHTML = `<div class="dn">${DAYS[di]}${isToday(date)?'<span class="ttag">TODAY</span>':''}</div><div class="dd">${fmtS(date)}</div>`;
+    var tdD = document.createElement('td'); tdD.className='dc';
+    tdD.innerHTML = '<div class="dn">'+DAYS[di]+(isToday(date)?'<span class="ttag">TODAY</span>':'')+'</div><div class="dd">'+fmtS(date)+'</div>';
     tr.appendChild(tdD);
 
-    cats.forEach((c,ci)=>{
-      const v  = getCell(w,d,c.key);
-      if(v!==''){ rowT+=parseFloat(v)||0; colT[ci]+=parseFloat(v)||0 }
-      const td  = document.createElement('td'); td.style.textAlign='right';
-      const inp = document.createElement('input');
+    cats.forEach(function(c,ci){
+      var v   = getCell(w,d,c.key);
+      if(v!==''){ rowT+=parseFloat(v)||0; colT[ci]+=parseFloat(v)||0; }
+      var td  = document.createElement('td'); td.style.textAlign='right';
+      var inp = document.createElement('input');
       inp.className='ci2'; inp.type='number'; inp.min='0'; inp.step='0.01';
       inp.placeholder='—'; inp.value=v; inp.dataset.day=d; inp.dataset.k=c.key;
-      inp.oninput = ()=>liveRT(d);
+      inp.oninput = function(){ liveRT(d) };
       td.appendChild(inp); tr.appendChild(td);
     });
 
     grand += rowT;
-    const tdT = document.createElement('td'); tdT.className='rt'; tdT.id='rt_'+d;
+    var tdT = document.createElement('td'); tdT.className='rt'; tdT.id='rt_'+d;
     tdT.textContent = rowT>0 ? '£'+rowT.toFixed(2) : '—';
     tr.appendChild(tdT); tbody.appendChild(tr);
   });
 
   // Footer
-  const tfoot = document.getElementById('tfoot');
-  tfoot.innerHTML = '';
-  const fr = document.createElement('tr');
-  const fl = document.createElement('td'); fl.textContent='Week Total'; fr.appendChild(fl);
-  colT.forEach(v=>{ const td=document.createElement('td'); td.textContent=v>0?'£'+v.toFixed(2):'—'; fr.appendChild(td) });
-  const fg = document.createElement('td'); fg.className='gt';
+  var tfoot = document.getElementById('tfoot'); tfoot.innerHTML='';
+  var fr = document.createElement('tr');
+  var fl = document.createElement('td'); fl.textContent='Week Total'; fr.appendChild(fl);
+  colT.forEach(function(v){ var td=document.createElement('td'); td.textContent=v>0?'£'+v.toFixed(2):'—'; fr.appendChild(td) });
+  var fg = document.createElement('td'); fg.className='gt';
   fg.textContent = grand>0 ? '£'+grand.toFixed(2) : '—';
   fr.appendChild(fg); tfoot.appendChild(fr);
 
@@ -417,176 +396,194 @@ function renderWeek(){
 }
 
 function liveRT(d){
-  let t=0;
-  document.querySelectorAll(`.ci2[data-day="${d}"]`).forEach(i=>t+=parseFloat(i.value)||0);
-  const el=document.getElementById('rt_'+d); if(el) el.textContent=t>0?'£'+t.toFixed(2):'—';
+  var t=0;
+  document.querySelectorAll('.ci2[data-day="'+d+'"]').forEach(function(i){ t+=parseFloat(i.value)||0 });
+  var el=document.getElementById('rt_'+d); if(el) el.textContent=t>0?'£'+t.toFixed(2):'—';
 }
 
 function renderMets(cats, colT, grand){
-  const g = document.getElementById('mets');
-  let html = `<div class="met hi"><div class="ml">Weekly Total</div><div class="mv">${grand>0?'£'+grand.toFixed(2):'—'}</div></div>`;
-  cats.forEach((c,i)=>{ html+=`<div class="met"><div class="ml">${c.label}</div><div class="mv">${colT[i]>0?'£'+colT[i].toFixed(2):'—'}</div></div>` });
-  g.innerHTML = html;
+  var g = document.getElementById('mets');
+  var h = '<div class="met hi"><div class="ml">Weekly Total</div><div class="mv">'+(grand>0?'£'+grand.toFixed(2):'—')+'</div></div>';
+  cats.forEach(function(c,i){ h+='<div class="met"><div class="ml">'+c.label+'</div><div class="mv">'+(colT[i]>0?'£'+colT[i].toFixed(2):'—')+'</div></div>' });
+  g.innerHTML = h;
 }
 
 // ════════════════════════════════════════════════════════════
-// SAVE + SYNC
+// JSONP — sends data to Google Sheets
 // ════════════════════════════════════════════════════════════
-async function saveWeek(){
-  const w = wkKey(curMon);
-  // Read all inputs (including hidden cols so we don't lose data)
-  document.querySelectorAll('.ci2').forEach(inp=>setCell(w, inp.dataset.day, inp.dataset.k, inp.value.trim()));
-  // Clean empties
-  if(db[w]){ Object.keys(db[w]).forEach(d=>{ if(!Object.keys(db[w][d]).length) delete db[w][d] }); if(!Object.keys(db[w]).length) delete db[w] }
-  saveDB();
-
-  const btn = document.getElementById('sbtn');
-  btn.textContent='Saved ✓'; btn.className='btn bg';
-  setTimeout(()=>{ btn.textContent='Save & Sync'; btn.className='btn br' }, 2500);
-  toast('Saved locally');
-
-  if(!cfg.url){ toast('Tip: Add Sheet URL in Settings to sync'); return }
-
-  setSyncUI('busy','Syncing...');
-  const dates = wkDates(curMon);
-  let ok=0, fail=0;
-
-  for(const date of dates){
-    const d       = ds(date);
-    const dayData = db[w]?.[d];
-    if(!dayData || !Object.keys(dayData).length) continue;
-    let total = 0;
-    const row = { date: d };
-    ALL_CATS.forEach(c=>{ row[c.key]=dayData[c.key]||0; total+=dayData[c.key]||0 });
-    row.total = total;
-    try{
-      const res = await jsonpCall({ action:'save', row: JSON.stringify(row) });
-      if(res && res.success) ok++; else{ fail++; console.error('Sheet error:', res) }
-    }catch(e){ fail++; console.error('Sync error:', e) }
-  }
-
-  if(fail===0 && ok>0){ setSyncUI('ok','Synced ✓'); toast('Synced to Google Sheets ✓') }
-  else if(ok===0 && fail===0){ setSyncUI('ok','Nothing to sync') }
-  else{ setSyncUI('err', fail+' row(s) failed'); toast(fail+' rows failed to sync — check console') }
-}
-
-function chWk(dir){ curMon=new Date(curMon); curMon.setDate(curMon.getDate()+dir*7); renderWeek() }
-function jumpTo(v){ if(!v)return; curMon=getMonday(new Date(v)); renderWeek() }
-
-// ════════════════════════════════════════════════════════════
-// JSONP  (only reliable method for Apps Script from browser)
-// ════════════════════════════════════════════════════════════
-let _cbN = 0;
+var _cbN = 0;
 function jsonpCall(params){
-  return new Promise((resolve,reject)=>{
-    if(!cfg.url){ reject(new Error('No sheet URL')); return }
-    const cbName = '_gscb'+(++_cbN);
-    const timer  = setTimeout(()=>{
+  return new Promise(function(resolve,reject){
+    var cbName = '_gscb'+(++_cbN);
+    var timer  = setTimeout(function(){
       delete window[cbName];
-      const s=document.getElementById(cbName); if(s)s.remove();
-      reject(new Error('Request timed out — check your URL and try again'));
-    }, 12000);
+      var s=document.getElementById(cbName); if(s)s.remove();
+      reject(new Error('Timed out — check your Script URL is correct and deployed'));
+    }, 15000);
 
     window[cbName] = function(data){
       clearTimeout(timer); delete window[cbName];
-      const s=document.getElementById(cbName); if(s)s.remove();
+      var s=document.getElementById(cbName); if(s)s.remove();
       resolve(data);
     };
 
     params.callback = cbName;
-    const qs = Object.entries(params).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
-    const script = document.createElement('script');
-    script.id    = cbName;
-    script.src   = cfg.url + '?' + qs;
-    script.onerror = ()=>{
+    var qs = Object.keys(params).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(params[k]) }).join('&');
+    var script = document.createElement('script');
+    script.id  = cbName;
+    script.src = SHEET_URL+'?'+qs;
+    script.onerror = function(){
       clearTimeout(timer); delete window[cbName]; script.remove();
-      reject(new Error('Failed to load script — URL may be wrong or not deployed'));
+      reject(new Error('Script failed to load — URL may be wrong'));
     };
     document.head.appendChild(script);
   });
 }
 
-function setSyncUI(state,text){ document.getElementById('sdot').className='sdot'+(state?' '+state:''); document.getElementById('stxt').textContent=text }
+function setSyncUI(state,text){
+  document.getElementById('sdot').className='sdot'+(state?' '+state:'');
+  document.getElementById('stxt').textContent=text;
+}
 
 // ════════════════════════════════════════════════════════════
-// TAB SWITCHING
+// SAVE + SYNC TO SHEET
 // ════════════════════════════════════════════════════════════
+function saveWeek(){
+  var w = wkKey(curMon);
+
+  // Read all inputs
+  document.querySelectorAll('.ci2').forEach(function(inp){
+    setCell(w, inp.dataset.day, inp.dataset.k, inp.value.trim());
+  });
+
+  // Clean empty entries
+  if(db[w]){
+    Object.keys(db[w]).forEach(function(d){
+      if(!Object.keys(db[w][d]).length) delete db[w][d];
+    });
+    if(!Object.keys(db[w]).length) delete db[w];
+  }
+  saveDB();
+
+  var btn = document.getElementById('sbtn');
+  btn.textContent='Saved ✓'; btn.className='btn bg';
+  setTimeout(function(){ btn.textContent='Save & Sync'; btn.className='btn br' }, 2500);
+  toast('Saved locally ✓');
+
+  if(!SHEET_URL || SHEET_URL.indexOf('YOUR_ID')>-1){
+    toast('Edit SHEET_URL in the HTML to enable sync');
+    return;
+  }
+
+  setSyncUI('busy','Syncing...');
+
+  var dates = wkDates(curMon);
+  var chain = Promise.resolve();
+  var ok=0, fail=0;
+
+  dates.forEach(function(date){
+    var d       = ds(date);
+    var dayData = db[w] && db[w][d];
+    if(!dayData || !Object.keys(dayData).length) return;
+
+    var total = 0;
+    var row   = { date: d };
+    ALL_CATS.forEach(function(c){ row[c.key]=dayData[c.key]||0; total+=dayData[c.key]||0 });
+    row.total = total;
+
+    chain = chain.then(function(){
+      return jsonpCall({ action:'save', row: JSON.stringify(row) })
+        .then(function(res){
+          if(res && res.success) ok++;
+          else { fail++; console.warn('Sheet error for '+d+':', res); }
+        })
+        .catch(function(e){ fail++; console.error('Sync error for '+d+':', e.message); });
+    });
+  });
+
+  chain.then(function(){
+    if(fail===0 && ok>0){ setSyncUI('ok','Synced ✓'); toast('Synced to Google Sheets ✓') }
+    else if(ok===0 && fail===0){ setSyncUI('ok','No new data') }
+    else { setSyncUI('err', fail+' failed'); toast(fail+' rows failed — see console') }
+  });
+}
+
+function chWk(dir){ curMon=new Date(curMon); curMon.setDate(curMon.getDate()+dir*7); renderWeek() }
+function jumpTo(v){ if(!v)return; curMon=getMonday(new Date(v)); renderWeek() }
+
 function showTab(t){
-  const names=['weekly','scanner','history','settings'];
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',names[i]===t));
-  document.querySelectorAll('.sec').forEach(el=>el.classList.remove('active'));
+  var names=['weekly','scanner','history','settings'];
+  document.querySelectorAll('.tab').forEach(function(el,i){ el.classList.toggle('active',names[i]===t) });
+  document.querySelectorAll('.sec').forEach(function(el){ el.classList.remove('active') });
   document.getElementById(t).classList.add('active');
   if(t==='history')  renderHist();
-  if(t==='settings'){ loadSettingsUI(); renderColToggles() }
+  if(t==='settings'){ renderColToggles(); showCurrentURL(); }
 }
 
 // ════════════════════════════════════════════════════════════
 // SETTINGS
 // ════════════════════════════════════════════════════════════
-function saveSettings(){
-  cfg.url = document.getElementById('surl').value.trim();
-  saveCfg(); toast('Settings saved');
-  setSyncUI(cfg.url?'ok':'', cfg.url?'Sheet URL saved':'URL cleared');
-}
-function loadSettingsUI(){ document.getElementById('surl').value = cfg.url||'' }
-
-async function testConn(){
-  const url = document.getElementById('surl').value.trim();
-  const msg = document.getElementById('tmsg');
-  if(!url){ msg.style.display='block'; msg.className='tmsg er'; msg.textContent='Enter a URL first.'; return }
-  msg.style.display='block'; msg.className='tmsg'; msg.textContent='Testing...';
-  const oldUrl = cfg.url; cfg.url = url;
-  try{
-    const res = await jsonpCall({ action:'getAll' });
-    if(res && res.success){
-      msg.className='tmsg ok';
-      msg.textContent='✓ Connected! Found '+res.rows.length+' rows in your Sheet.';
-      setSyncUI('ok','Connected');
-      cfg.url = url; saveCfg();
-    } else throw new Error(res?.error||'Unknown response');
-  }catch(e){
-    cfg.url = oldUrl;
-    msg.className='tmsg er';
-    msg.textContent='✗ Failed: '+e.message;
-    setSyncUI('err','Failed');
-  }
+function showCurrentURL(){
+  var el = document.getElementById('url-display');
+  if(el) el.textContent = SHEET_URL;
 }
 
-async function pullSheet(){
-  if(!cfg.url){ toast('No Sheet URL — set it in Settings'); return }
+function testConn(){
+  var msg = document.getElementById('tmsg');
+  msg.style.display='block'; msg.style.background='#fffbe6'; msg.style.border='1px solid #f0c040'; msg.style.color='#7a6000';
+  msg.textContent = 'Testing connection...';
+  setSyncUI('busy','Testing...');
+  jsonpCall({ action:'getAll' })
+    .then(function(res){
+      if(res && res.success){
+        msg.style.background='#edfaf3'; msg.style.border='1px solid #a3e4c1'; msg.style.color='#1a7a3a';
+        msg.textContent = '✓ Connected! Found '+res.rows.length+' rows in your Sheet.';
+        setSyncUI('ok','Connected ✓');
+      } else throw new Error(res && res.error ? res.error : 'Unknown error');
+    })
+    .catch(function(e){
+      msg.style.background='#fdf0ef'; msg.style.border='1px solid #f5b7b1'; msg.style.color='#a93226';
+      msg.textContent = '✗ Failed: '+e.message;
+      setSyncUI('err','Failed');
+    });
+}
+
+function pullSheet(){
   setSyncUI('busy','Pulling...'); toast('Pulling from Sheet...');
-  try{
-    const res = await jsonpCall({ action:'getAll' });
-    if(res && res.success){
-      res.rows.forEach(row=>{
-        if(!row.date) return;
-        const m=getMonday(new Date(row.date)), w=wkKey(m), d=row.date;
-        ALL_CATS.forEach(c=>{ if(row[c.key]) setCell(w,d,c.key,row[c.key]) });
-      });
-      saveDB(); renderWeek();
-      setSyncUI('ok','Pulled ✓'); toast('Pulled '+res.rows.length+' rows from Sheet');
-    } else throw new Error(res?.error||'Unknown');
-  }catch(e){ setSyncUI('err','Pull failed'); toast('Pull failed: '+e.message) }
+  jsonpCall({ action:'getAll' })
+    .then(function(res){
+      if(res && res.success){
+        res.rows.forEach(function(row){
+          if(!row.date) return;
+          var m=getMonday(new Date(row.date)), w=wkKey(m), d=row.date;
+          ALL_CATS.forEach(function(c){ if(row[c.key]) setCell(w,d,c.key,row[c.key]) });
+        });
+        saveDB(); renderWeek();
+        setSyncUI('ok','Pulled ✓'); toast('Pulled '+res.rows.length+' rows ✓');
+      } else throw new Error(res && res.error ? res.error : 'Unknown');
+    })
+    .catch(function(e){ setSyncUI('err','Failed'); toast('Pull failed: '+e.message) });
 }
 
 // ════════════════════════════════════════════════════════════
 // COLUMN TOGGLES
 // ════════════════════════════════════════════════════════════
 function renderColToggles(){
-  const grid = document.getElementById('ctogs');
-  grid.innerHTML = ALL_CATS.map(c=>{
-    const on = !cfg.hidden[c.key];
-    return `<div class="ctog${on?' on':''}" onclick="toggleCol('${c.key}')">
-      <span class="ctog-name">${c.label}</span>
-      <div class="tog"></div>
-    </div>`;
+  var grid = document.getElementById('ctogs');
+  grid.innerHTML = ALL_CATS.map(function(c){
+    var on = !cfg.hidden[c.key];
+    return '<div class="ctog'+(on?' on':'')+'" onclick="toggleCol(\''+c.key+'\')">'
+      +'<span class="ctog-name">'+c.label+'</span>'
+      +'<div class="tog"></div>'
+      +'</div>';
   }).join('');
 }
 
 function toggleCol(key){
   if(cfg.hidden[key]) delete cfg.hidden[key]; else cfg.hidden[key]=true;
   saveCfg(); renderColToggles(); renderWeek();
-  toast((cfg.hidden[key]?'Hidden':'Showing')+': '+ALL_CATS.find(c=>c.key===key).label);
+  var label = ALL_CATS.filter(function(c){ return c.key===key })[0].label;
+  toast((cfg.hidden[key]?'Hidden':'Showing')+': '+label);
 }
 
 function showAllCols(){ cfg.hidden={}; saveCfg(); renderColToggles(); renderWeek(); toast('All channels visible') }
@@ -595,86 +592,93 @@ function showAllCols(){ cfg.hidden={}; saveCfg(); renderColToggles(); renderWeek
 // OCR SCANNER
 // ════════════════════════════════════════════════════════════
 function startOCR(input){
-  const file=input.files[0]; if(!file)return;
-  const out=document.getElementById('scout');
-  const reader=new FileReader();
-  reader.onload=async function(e){
-    const src=e.target.result;
-    out.innerHTML=`<img src="${src}" class="sprev"/><div class="prog"><div style="font-weight:700;font-size:1rem;margin-bottom:6px">Reading receipt...</div><div class="ptrack"><div class="pfill" id="pbar"></div></div><div class="plbl" id="plbl">Starting OCR engine...</div></div>`;
-    try{
-      const result = await Tesseract.recognize(src,'eng',{
-        logger: m=>{ if(m.status==='recognizing text'){ const p=Math.round(m.progress*100); const b=document.getElementById('pbar'); const l=document.getElementById('plbl'); if(b)b.style.width=p+'%'; if(l)l.textContent='Recognising... '+p+'%' } }
-      });
+  var file=input.files[0]; if(!file)return;
+  var out=document.getElementById('scout');
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var src=e.target.result;
+    out.innerHTML='<img src="'+src+'" class="sprev"/><div class="prog"><div style="font-weight:700;font-size:1rem;margin-bottom:6px">Reading receipt...</div><div class="ptrack"><div class="pfill" id="pbar"></div></div><div class="plbl" id="plbl">Starting OCR...</div></div>';
+    Tesseract.recognize(src,'eng',{
+      logger:function(m){
+        if(m.status==='recognizing text'){
+          var p=Math.round(m.progress*100);
+          var b=document.getElementById('pbar'); var l=document.getElementById('plbl');
+          if(b)b.style.width=p+'%'; if(l)l.textContent='Recognising... '+p+'%';
+        }
+      }
+    }).then(function(result){
       showScanResult(src, result.data.text, parseReceipt(result.data.text));
-    }catch(err){ out.innerHTML=`<div style="padding:1rem;color:var(--acc);font-size:1rem;font-weight:700">OCR failed: ${err.message}. Try a clearer, well-lit photo.</div>` }
+    }).catch(function(err){
+      out.innerHTML='<div style="padding:1rem;color:var(--acc);font-size:1rem;font-weight:700">OCR failed: '+err.message+'</div>';
+    });
   };
   reader.readAsDataURL(file); input.value='';
 }
 
 function parseReceipt(text){
-  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
-  const result = {};
-  const catMap = {
-    cash:      ['cash sale','cash sales'],
-    card:      ['card sale','card sales'],
-    web:       ['web sale','web sales'],
-    justeat:   ['just eat','justeat','just-eat'],
-    ubereats:  ['uber eat','uber eats','ubereats','uber-eat'],
-    deliveroo: ['deliveroo'],
-    foodhub:   ['foodhub','food hub']
+  var lines  = text.split('\n').map(function(l){ return l.trim() }).filter(Boolean);
+  var result = {};
+  var catMap = {
+    cash:['cash sale','cash sales'],
+    card:['card sale','card sales'],
+    web:['web sale','web sales'],
+    justeat:['just eat','justeat','just-eat'],
+    ubereats:['uber eat','uber eats','ubereats','uber-eat'],
+    deliveroo:['deliveroo'],
+    foodhub:['foodhub','food hub']
   };
-  const extras = { total:['total'], expenses:['expense'], till_left:['till left'] };
-  const money  = s=>{ const m=s.match(/[£$€]?\s*(\d[\d,]*\.?\d{0,2})/); return m?parseFloat(m[1].replace(',','')):null };
+  var extras = { total:['total'], expenses:['expense'], till_left:['till left'] };
+  function money(s){ var m=s.match(/[£$€]?\s*(\d[\d,]*\.?\d{0,2})/); return m?parseFloat(m[1].replace(',','')):null }
 
-  lines.forEach(line=>{
-    const lo = line.toLowerCase();
-    for(const[k,aliases] of Object.entries(catMap)){
-      if(aliases.some(a=>lo.includes(a))){ const v=money(line); if(v!=null&&result[k]==null) result[k]=v }
-    }
-    for(const[k,aliases] of Object.entries(extras)){
-      if(aliases.some(a=>lo.includes(a))){ const v=money(line); if(v!=null&&result[k]==null) result[k]=v }
-    }
+  lines.forEach(function(line){
+    var lo=line.toLowerCase();
+    Object.keys(catMap).forEach(function(k){
+      catMap[k].forEach(function(a){
+        if(lo.indexOf(a)>-1 && result[k]==null){ var v=money(line); if(v!=null) result[k]=v }
+      });
+    });
+    Object.keys(extras).forEach(function(k){
+      extras[k].forEach(function(a){
+        if(lo.indexOf(a)>-1 && result[k]==null){ var v=money(line); if(v!=null) result[k]=v }
+      });
+    });
   });
-  const dm=text.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/); if(dm) result.date=dm[0];
+  var dm=text.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/); if(dm) result.date=dm[0];
   return result;
 }
 
 function showScanResult(src,raw,parsed){
-  const rows = ALL_CATS.map(c=>{
-    const v = parsed[c.key]!=null ? parsed[c.key].toFixed(2) : '';
-    return `<div class="sr"><span class="slbl">${c.label}</span><input class="sedit" type="number" min="0" step="0.01" id="se_${c.key}" value="${v}" placeholder="—"/></div>`;
+  var rows = ALL_CATS.map(function(c){
+    var v = parsed[c.key]!=null ? parsed[c.key].toFixed(2) : '';
+    return '<div class="sr"><span class="slbl">'+c.label+'</span><input class="sedit" type="number" min="0" step="0.01" id="se_'+c.key+'" value="'+v+'" placeholder="—"/></div>';
   }).join('');
 
-  const extras = ['total','expenses','till_left'].map(k=>{
+  var extras = ['total','expenses','till_left'].map(function(k){
     if(parsed[k]==null) return '';
-    const cls  = k==='total'?' stot':'';
-    const lbl  = k==='total'?'Total':k==='expenses'?'Expenses':'Till Left';
-    return `<div class="sr${cls}"><span class="slbl">${lbl}</span><span class="stotv">£${parsed[k].toFixed(2)}</span></div>`;
+    var cls=k==='total'?' stot':'';
+    var lbl=k==='total'?'Total':k==='expenses'?'Expenses':'Till Left';
+    return '<div class="sr'+cls+'"><span class="slbl">'+lbl+'</span><span class="stotv">£'+parsed[k].toFixed(2)+'</span></div>';
   }).join('');
 
-  const today = ds(new Date());
-  document.getElementById('scout').innerHTML = `
-    <img src="${src}" class="sprev"/>
-    <div class="sres">
-      <div class="shd">Extracted Sales Data${parsed.date?`&nbsp;<span style="font-weight:400;opacity:.7;font-size:.86rem">${parsed.date}</span>`:''}</div>
-      ${rows}${extras}
-      <div class="sdr"><label>Apply to date:</label><input type="date" class="ci" id="adate" value="${today}"/></div>
-      <div class="sact">
-        <button class="sapl" onclick="applyOCR()">Apply to Tracker</button>
-        <button class="sclr" onclick="document.getElementById('scout').innerHTML=''">Clear</button>
-      </div>
-    </div>
-    <span class="rtog" onclick="togRaw(this)">Show raw OCR text</span>
-    <pre class="rtxt" id="rtxt">${esc(raw)}</pre>`;
+  var today=ds(new Date());
+  document.getElementById('scout').innerHTML =
+    '<img src="'+src+'" class="sprev"/>'
+    +'<div class="sres">'
+    +'<div class="shd">Extracted Sales Data'+(parsed.date?' <span style="font-weight:400;opacity:.7;font-size:.86rem">'+parsed.date+'</span>':'')+'</div>'
+    +rows+extras
+    +'<div class="sdr"><label>Apply to date:</label><input type="date" class="ci" id="adate" value="'+today+'"/></div>'
+    +'<div class="sact"><button class="sapl" onclick="applyOCR()">Apply to Tracker</button><button class="sclr" onclick="document.getElementById(\'scout\').innerHTML=\'\'">Clear</button></div>'
+    +'</div>'
+    +'<span class="rtog" onclick="togRaw(this)">Show raw OCR text</span>'
+    +'<pre class="rtxt" id="rtxt">'+esc(raw)+'</pre>';
 }
 
-function togRaw(el){ const b=document.getElementById('rtxt'); const s=b.style.display!=='block'; b.style.display=s?'block':'none'; el.textContent=s?'Hide raw OCR text':'Show raw OCR text' }
+function togRaw(el){ var b=document.getElementById('rtxt'); var s=b.style.display!=='block'; b.style.display=s?'block':'none'; el.textContent=s?'Hide raw OCR text':'Show raw OCR text' }
 
 function applyOCR(){
-  const dv = document.getElementById('adate').value;
-  if(!dv){ toast('Please select a date'); return }
-  const m=getMonday(new Date(dv)), w=wkKey(m), d=dv;
-  ALL_CATS.forEach(c=>{ const inp=document.getElementById('se_'+c.key); if(inp&&inp.value.trim()!=='') setCell(w,d,c.key,inp.value) });
+  var dv=document.getElementById('adate').value; if(!dv){ toast('Select a date'); return }
+  var m=getMonday(new Date(dv)), w=wkKey(m), d=dv;
+  ALL_CATS.forEach(function(c){ var inp=document.getElementById('se_'+c.key); if(inp&&inp.value.trim()!=='') setCell(w,d,c.key,inp.value) });
   saveDB(); curMon=m; showTab('weekly'); renderWeek();
   toast('Applied to '+new Date(dv).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}));
 }
@@ -685,101 +689,77 @@ function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/
 // PDF
 // ════════════════════════════════════════════════════════════
 function initPDF(){
-  const ms=document.getElementById('pdfm'), ys=document.getElementById('pdfy');
+  var ms=document.getElementById('pdfm'), ys=document.getElementById('pdfy');
   if(ms.children.length) return;
-  MONTHS.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m; ms.appendChild(o) });
-  const now = new Date(); ms.value=now.getMonth();
-  const yrs = [...new Set([...Object.keys(db).map(k=>k.slice(0,4)), String(now.getFullYear())])].sort().reverse();
-  yrs.forEach(y=>{ const o=document.createElement('option'); o.value=y; o.textContent=y; ys.appendChild(o) });
-  ys.value = now.getFullYear();
+  MONTHS.forEach(function(m,i){ var o=document.createElement('option'); o.value=i; o.textContent=m; ms.appendChild(o) });
+  var now=new Date(); ms.value=now.getMonth();
+  var yrs=[]; var yk=Object.keys(db).map(function(k){ return k.slice(0,4) }); yrs=yrs.concat(yk); yrs.push(String(now.getFullYear()));
+  yrs=yrs.filter(function(v,i,a){ return a.indexOf(v)===i }).sort().reverse();
+  yrs.forEach(function(y){ var o=document.createElement('option'); o.value=y; o.textContent=y; ys.appendChild(o) });
+  ys.value=now.getFullYear();
 }
 
 function dlPDF(){
-  const month = parseInt(document.getElementById('pdfm').value);
-  const year  = parseInt(document.getElementById('pdfy').value);
-  const cats  = activeCats(); // respect hidden columns in PDF too
+  var month=parseInt(document.getElementById('pdfm').value);
+  var year =parseInt(document.getElementById('pdfy').value);
+  var cats =activeCats();
+  var jsPDF=window.jspdf.jsPDF;
+  var doc  =new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
 
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
-
-  // Header bar
   doc.setFillColor(26,26,46); doc.rect(0,0,297,26,'F');
   doc.setTextColor(255,255,255); doc.setFontSize(17); doc.setFont('helvetica','bold');
   doc.text('Sales Report — '+MONTHS[month]+' '+year, 14, 17);
   doc.setFontSize(9); doc.setFont('helvetica','normal');
-  doc.text('Generated: '+new Date().toLocaleDateString('en-GB'), 230, 17);
+  doc.text('Generated: '+new Date().toLocaleDateString('en-GB'), 225, 17);
 
-  // Collect rows for this month
-  const rows = [];
-  const firstDay = new Date(year, month, 1);
-  const lastDay  = new Date(year, month+1, 0);
-
-  for(let d=new Date(firstDay); d<=lastDay; d.setDate(d.getDate()+1)){
-    const dk = ds(new Date(d));
-    const m  = getMonday(new Date(d));
-    const w  = wkKey(m);
-    const dd = db[w]?.[dk];
-    if(!dd) continue;
-    let hasData=false;
-    const row = [dk];
-    cats.forEach(c=>{ const v=dd[c.key]||0; row.push(v>0?'£'+v.toFixed(2):'—'); if(v>0)hasData=true });
-    if(!hasData) continue;
-    let tot=0; cats.forEach(c=>tot+=dd[c.key]||0);
-    row.push(tot>0?'£'+tot.toFixed(2):'—');
-    rows.push(row);
+  var rows=[];
+  var d=new Date(year,month,1), last=new Date(year,month+1,0);
+  while(d<=last){
+    var dk=ds(new Date(d));
+    var m=getMonday(new Date(d)), w=wkKey(m), dd=db[w]&&db[w][dk];
+    if(dd){
+      var has=false, row=[dk];
+      cats.forEach(function(c){ var v=dd[c.key]||0; row.push(v>0?'£'+v.toFixed(2):'—'); if(v>0)has=true });
+      if(has){ var tot=0; cats.forEach(function(c){ tot+=dd[c.key]||0 }); row.push('£'+tot.toFixed(2)); rows.push(row) }
+    }
+    d.setDate(d.getDate()+1);
   }
 
   if(!rows.length){
-    doc.setTextColor(120,120,120); doc.setFontSize(13);
-    doc.text('No data recorded for '+MONTHS[month]+' '+year, 14, 45);
+    doc.setTextColor(130,130,130); doc.setFontSize(13);
+    doc.text('No data for '+MONTHS[month]+' '+year, 14, 45);
   } else {
-    // Totals footer row
-    const colT = new Array(cats.length).fill(0);
-    rows.forEach(r=>cats.forEach((_,ci)=>{ colT[ci]+=parseFloat((r[ci+1]||'').replace('£','')||0) }));
-    const grand = colT.reduce((a,b)=>a+b, 0);
-    rows.push(['TOTAL', ...colT.map(v=>v>0?'£'+v.toFixed(2):'—'), '£'+grand.toFixed(2)]);
-
+    var ct=cats.map(function(){ return 0 });
+    rows.forEach(function(r){ cats.forEach(function(_,ci){ ct[ci]+=parseFloat((r[ci+1]||'').replace('£','')||0) }) });
+    var gt=ct.reduce(function(a,b){ return a+b },0);
+    rows.push(['TOTAL'].concat(ct.map(function(v){ return v>0?'£'+v.toFixed(2):'—' })).concat(['£'+gt.toFixed(2)]));
+    var totalRowIdx=rows.length-1;
     doc.autoTable({
-      startY: 32,
-      head: [['Date', ...cats.map(c=>c.label), 'Total']],
-      body: rows,
-      styles:           { font:'helvetica', fontSize:9, cellPadding:3.5 },
-      headStyles:       { fillColor:[26,26,46], textColor:[255,255,255], fontStyle:'bold' },
-      alternateRowStyles:{ fillColor:[247,247,255] },
-      columnStyles:     { 0:{ fontStyle:'bold', cellWidth:28 } },
-      didParseCell: function(data){
-        if(data.section==='body' && data.row.index===rows.length-1){
-          data.cell.styles.fillColor   = [192,57,43];
-          data.cell.styles.textColor   = [255,255,255];
-          data.cell.styles.fontStyle   = 'bold';
+      startY:32,
+      head:[['Date'].concat(cats.map(function(c){ return c.label })).concat(['Total'])],
+      body:rows,
+      styles:{font:'helvetica',fontSize:9,cellPadding:3.5},
+      headStyles:{fillColor:[26,26,46],textColor:[255,255,255],fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[247,247,255]},
+      columnStyles:{0:{fontStyle:'bold',cellWidth:28}},
+      didParseCell:function(data){
+        if(data.section==='body'&&data.row.index===totalRowIdx){
+          data.cell.styles.fillColor=[192,57,43];
+          data.cell.styles.textColor=[255,255,255];
+          data.cell.styles.fontStyle='bold';
         }
       }
     });
-
-    // Summary box
-    const finalY = doc.lastAutoTable.finalY + 8;
-    doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(26,26,46);
-    doc.text('Monthly Summary', 14, finalY);
-    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(80,80,80);
-    let xPos = 14;
-    cats.forEach((c,i)=>{
-      if(colT[i]>0){
-        doc.text(c.label+': £'+colT[i].toFixed(2), xPos, finalY+7);
-        xPos += 38;
-        if(xPos > 255){ xPos=14 }
-      }
-    });
-    doc.setFont('helvetica','bold'); doc.setTextColor(192,57,43);
-    doc.text('TOTAL: £'+grand.toFixed(2), 14, finalY+16);
+    var fy=doc.lastAutoTable.finalY+8;
+    doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(26,26,46);
+    doc.text('Total for '+MONTHS[month]+': £'+gt.toFixed(2), 14, fy);
   }
 
-  // Footer
-  const ph = doc.internal.pageSize.getHeight();
-  doc.setFontSize(8); doc.setFont('helvetica','normal'); doc.setTextColor(180,180,180);
-  doc.text('Daily Sales Tracker • '+MONTHS[month]+' '+year, 14, ph-6);
-
-  doc.save('Sales-Report-'+MONTHS[month]+'-'+year+'.pdf');
-  toast('PDF saved: '+MONTHS[month]+' '+year);
+  var ph=doc.internal.pageSize.getHeight();
+  doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(180,180,180);
+  doc.text('Daily Sales Tracker • '+MONTHS[month]+' '+year, 14, ph-5);
+  doc.save('Sales-'+MONTHS[month]+'-'+year+'.pdf');
+  toast('PDF saved');
 }
 
 // ════════════════════════════════════════════════════════════
@@ -787,63 +767,50 @@ function dlPDF(){
 // ════════════════════════════════════════════════════════════
 function renderHist(){
   initPDF();
-  const keys = Object.keys(db).sort().reverse();
-  const sel  = document.getElementById('hfil');
-  const cur  = sel.value;
-  sel.innerHTML = '<option value="">All time</option>';
-  [...new Set(keys.map(k=>k.slice(0,7)))].sort().reverse().forEach(m=>{
-    const o=document.createElement('option'); o.value=m;
-    const[y,mo]=m.split('-'); o.textContent=MONTHS[parseInt(mo)-1]+' '+y;
-    sel.appendChild(o);
+  var keys=Object.keys(db).sort().reverse();
+  var sel=document.getElementById('hfil'), cur=sel.value;
+  sel.innerHTML='<option value="">All time</option>';
+  var months=keys.map(function(k){ return k.slice(0,7) }).filter(function(v,i,a){ return a.indexOf(v)===i }).sort().reverse();
+  months.forEach(function(mo){
+    var o=document.createElement('option'); o.value=mo;
+    var p=mo.split('-'); o.textContent=MONTHS[parseInt(p[1])-1]+' '+p[0]; sel.appendChild(o);
   });
-  sel.value = cur;
-  const fil      = sel.value;
-  const filtered = fil ? keys.filter(k=>k.startsWith(fil)) : keys;
-  const list     = document.getElementById('hlist');
+  sel.value=cur;
+  var fil=sel.value;
+  var filtered=fil?keys.filter(function(k){ return k.indexOf(fil)===0 }):keys;
+  var list=document.getElementById('hlist');
+  if(!filtered.length){ list.innerHTML='<div class="hemp">No saved data yet.<br>Add data and click Save &amp; Sync.</div>'; return }
 
-  if(!filtered.length){
-    list.innerHTML='<div class="hemp">No saved data yet.<br>Add data in Weekly Report and click Save &amp; Sync.</div>';
-    return;
-  }
-
-  list.innerHTML = filtered.map(w=>{
-    const m=new Date(w); const e=new Date(m); e.setDate(e.getDate()+6);
-    const dates=wkDates(m); let grand=0;
-    const dailies=[]; const colT=new Array(ALL_CATS.length).fill(0);
-    dates.forEach(d=>{ const dk=ds(d); let dt=0; ALL_CATS.forEach((c,ci)=>{ const v=db[w]?.[dk]?.[c.key]||0; dt+=v; colT[ci]+=v }); dailies.push(dt); grand+=dt });
-    const mx=Math.max(...dailies,1);
-    const bars=dailies.map((v,i)=>`<div class="hb" title="${DAYS[i]}: £${v.toFixed(2)}"><div class="hbf" style="height:${Math.round(v/mx*100)}%"></div></div>`).join('');
-    const dlbls=DAYS.map(d=>`<div class="hdy">${d}</div>`).join('');
-    const bi=dailies.indexOf(Math.max(...dailies));
-    const chips=ALL_CATS.map((c,i)=>`<span class="cp${colT[i]>0?' on':''}">${c.label}: ${colT[i]>0?'£'+colT[i].toFixed(2):'—'}</span>`).join('');
-    return `<div class="hcard" onclick="goWk('${w}')">
-      <div class="htop"><span class="hwk">${fmtS(m)} — ${fmtS(e)} ${e.getFullYear()}</span><span class="htot">£${grand.toFixed(2)}</span></div>
-      <div class="hbars">${bars}</div><div class="hdys">${dlbls}</div>
-      <div class="hmeta">
-        <span><strong>${dailies.filter(v=>v>0).length}</strong> days recorded</span>
-        ${bi>=0&&dailies[bi]>0?`<span>Best: <strong>${DAYS[bi]}</strong> (£${dailies[bi].toFixed(2)})</span>`:''}
-      </div>
-      <div class="cps">${chips}</div>
-    </div>`;
+  list.innerHTML=filtered.map(function(w){
+    var m=new Date(w), e=new Date(m); e.setDate(e.getDate()+6);
+    var dates=wkDates(m), grand=0, dailies=[], ct=ALL_CATS.map(function(){ return 0 });
+    dates.forEach(function(date){ var dk=ds(date), dt=0; ALL_CATS.forEach(function(c,ci){ var v=db[w]&&db[w][dk]&&db[w][dk][c.key]||0; dt+=v; ct[ci]+=v }); dailies.push(dt); grand+=dt });
+    var mx=Math.max.apply(null,dailies.concat([1]));
+    var bars=dailies.map(function(v,i){ return '<div class="hb" title="'+DAYS[i]+': £'+v.toFixed(2)+'"><div class="hbf" style="height:'+Math.round(v/mx*100)+'%"></div></div>' }).join('');
+    var dlbls=DAYS.map(function(d){ return '<div class="hdy">'+d+'</div>' }).join('');
+    var bi=dailies.indexOf(Math.max.apply(null,dailies));
+    var chips=ALL_CATS.map(function(c,i){ return '<span class="cp'+(ct[i]>0?' on':'')+'">'+c.label+': '+(ct[i]>0?'£'+ct[i].toFixed(2):'—')+'</span>' }).join('');
+    return '<div class="hcard" onclick="goWk(\''+w+'\')">'
+      +'<div class="htop"><span class="hwk">'+fmtS(m)+' — '+fmtS(e)+' '+e.getFullYear()+'</span><span class="htot">£'+grand.toFixed(2)+'</span></div>'
+      +'<div class="hbars">'+bars+'</div><div class="hdys">'+dlbls+'</div>'
+      +'<div class="hmeta"><span><strong>'+dailies.filter(function(v){ return v>0 }).length+'</strong> days recorded</span>'
+      +(bi>=0&&dailies[bi]>0?'<span>Best: <strong>'+DAYS[bi]+'</strong> (£'+dailies[bi].toFixed(2)+')</span>':'')
+      +'</div><div class="cps">'+chips+'</div></div>';
   }).join('');
 }
 
 function goWk(w){ curMon=new Date(w); showTab('weekly'); renderWeek() }
-
-// ════════════════════════════════════════════════════════════
-// BACKUP
-// ════════════════════════════════════════════════════════════
-function expJSON(){ const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='sales-backup-'+ds(new Date())+'.json'; a.click(); toast('Backup downloaded') }
-function doImport(input){ const f=input.files[0]; if(!f)return; const r=new FileReader(); r.onload=e=>{ try{ Object.assign(db,JSON.parse(e.target.result)); saveDB(); renderWeek(); toast('Data imported') }catch(x){ toast('Import failed — invalid file') } }; r.readAsText(f); input.value='' }
-function clearAll(){ if(confirm('Delete ALL saved data permanently?')){ db={}; saveDB(); renderWeek(); toast('All data cleared') } }
-
-function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800) }
+function expJSON(){ var b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}); var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='sales-backup-'+ds(new Date())+'.json'; a.click(); toast('Backup downloaded') }
+function doImport(input){ var f=input.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(e){ try{ Object.assign(db,JSON.parse(e.target.result)); saveDB(); renderWeek(); toast('Imported') }catch(x){ toast('Import failed') } }; r.readAsText(f); input.value='' }
+function clearAll(){ if(confirm('Delete ALL data permanently?')){ db={}; saveDB(); renderWeek(); toast('Cleared') } }
+function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show') },2800) }
 
 // ════════════════════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════════════════════
 document.getElementById('dchip').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-if(cfg.url) setSyncUI('ok','Sheet connected');
+if(SHEET_URL && SHEET_URL.indexOf('YOUR_ID')===-1) setSyncUI('ok','Sheet URL set');
+else setSyncUI('err','No Sheet URL');
 renderWeek();
 </script>
 </body>

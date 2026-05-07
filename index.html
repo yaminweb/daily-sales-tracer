@@ -17,8 +17,6 @@
 html{font-size:16px}
 body{background:var(--bg);color:var(--txt);font-family:var(--f);min-height:100vh}
 .wrap{max-width:1160px;margin:0 auto;padding:0 1.4rem 4rem}
-
-/* TOP BAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:1.3rem 0 1.1rem;border-bottom:2px solid var(--bdr);margin-bottom:1.6rem;flex-wrap:wrap;gap:10px}
 .brand{display:flex;align-items:center;gap:11px}
 .bi{width:44px;height:44px;background:var(--acc);border-radius:8px;display:flex;align-items:center;justify-content:center}
@@ -31,21 +29,15 @@ body{background:var(--bg);color:var(--txt);font-family:var(--f);min-height:100vh
 .sdot{width:9px;height:9px;border-radius:50%;background:#aaa;flex-shrink:0}
 .sdot.ok{background:var(--grn)}.sdot.err{background:var(--acc)}.sdot.busy{background:#e67e22;animation:bl .8s infinite}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
-
-/* TABS */
 .tabs{display:flex;border-bottom:2px solid var(--bdr);margin-bottom:1.6rem}
 .tab{padding:10px 24px;border:none;background:transparent;cursor:pointer;font-size:1rem;font-family:var(--f);color:var(--mut);font-weight:700;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .13s}
 .tab:hover{color:var(--txt)}.tab.active{color:var(--acc);border-bottom-color:var(--acc)}
 .sec{display:none}.sec.active{display:block}
-
-/* BUTTONS */
 .btn{padding:9px 18px;border-radius:var(--r);border:none;cursor:pointer;font-size:.94rem;font-family:var(--f);font-weight:700;transition:all .12s}
 .br{background:var(--acc);color:#fff}.br:hover{background:var(--acc2)}
 .bg{background:var(--grn);color:#fff}
 .bo{background:var(--sur);color:var(--txt);border:1px solid var(--bdr)}.bo:hover{border-color:var(--acc);color:var(--acc)}
 .bd{background:#e74c3c;color:#fff}
-
-/* CONTROLS */
 .ctls{display:flex;align-items:center;gap:9px;margin-bottom:1.3rem;flex-wrap:wrap}
 .wnav{display:flex;align-items:center;gap:6px}
 .nb{width:34px;height:34px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--sur);cursor:pointer;font-size:1.2rem;color:var(--mut);display:flex;align-items:center;justify-content:center;transition:all .12s}
@@ -53,8 +45,6 @@ body{background:var(--bg);color:var(--txt);font-family:var(--f);min-height:100vh
 .wlbl{font-size:1.05rem;font-weight:700;min-width:188px;text-align:center}
 .ci{padding:7px 11px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--sur);color:var(--txt);font-size:.94rem;font-family:var(--f)}
 .ci:focus{outline:none;border-color:var(--acc)}
-
-/* METRICS */
 .mets{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;margin-bottom:1.3rem}
 .met{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px}
 .met.hi{background:var(--nvy);border-color:var(--nvy)}
@@ -62,8 +52,6 @@ body{background:var(--bg);color:var(--txt);font-family:var(--f);min-height:100vh
 .hi .ml{color:rgba(255,255,255,.6)}
 .mv{font-size:1.25rem;font-weight:700}
 .hi .mv{color:#fff;font-size:1.45rem}
-
-/* TABLE */
 .twrap{overflow-x:auto;border:1px solid var(--bdr);border-radius:var(--r);background:var(--sur);box-shadow:0 1px 4px rgba(0,0,0,.05)}
 table{width:100%;border-collapse:collapse;min-width:600px}
 thead th{padding:12px 11px;text-align:right;font-size:.88rem;font-weight:700;color:#fff;background:var(--nvy);white-space:nowrap;border-right:1px solid rgba(255,255,255,.1)}
@@ -86,8 +74,6 @@ tfoot tr{border-top:2px solid var(--bdr);background:#eee}
 tfoot td{padding:10px 11px;font-size:.92rem;font-weight:700;text-align:right}
 tfoot td:first-child{text-align:left;color:var(--mut);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
 tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
-
-/* SCANNER */
 .szone{border:2px dashed var(--bdr2);border-radius:var(--r);padding:2.8rem 2rem;text-align:center;cursor:pointer;background:var(--sur);transition:all .15s}
 .szone:hover{border-color:var(--acc);background:var(--acl)}
 .sico{font-size:2.6rem;margin-bottom:.6rem}
@@ -116,15 +102,11 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
 .sclr{padding:11px 18px;background:transparent;color:var(--mut);border:1px solid var(--bdr);border-radius:var(--r);cursor:pointer;font-size:.93rem;font-family:var(--f);font-weight:700}
 .rtog{font-size:.8rem;color:var(--mut);cursor:pointer;text-decoration:underline;text-align:center;margin-top:.6rem;display:block}
 .rtxt{background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:.8rem 1rem;font-family:monospace;font-size:.73rem;color:var(--mut);white-space:pre-wrap;margin-top:.5rem;max-height:190px;overflow-y:auto;display:none}
-
-/* PDF */
 .pdfbox{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem;margin-bottom:1.4rem}
 .pdfbox h3{font-size:1.05rem;font-weight:700;margin-bottom:1rem}
 .pdfrow{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
 .pdfrow label{font-size:.93rem;font-weight:700;color:var(--mut)}
 .pdfrow select{padding:7px 11px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--bg);font-size:.93rem;font-family:var(--f);color:var(--txt)}
-
-/* HISTORY */
 .hfil{display:flex;gap:9px;margin-bottom:1.3rem;flex-wrap:wrap;align-items:center}
 .hfil label{font-size:.93rem;font-weight:700;color:var(--mut)}
 .hemp{text-align:center;padding:3.5rem 2rem;color:var(--mut);font-size:.97rem}
@@ -144,16 +126,12 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
 .cps{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
 .cp{font-size:.75rem;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;padding:2px 8px;color:var(--mut)}
 .cp.on{color:var(--txt);font-weight:700;background:#fff}
-
-/* SETTINGS */
 .sc{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem;margin-bottom:1.1rem}
 .sc h3{font-size:1.05rem;font-weight:700;margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid var(--bdr)}
 .srow{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
 .srow label{font-size:.93rem;font-weight:700}
 .srow small{font-size:.8rem;color:var(--mut)}
 .brow{display:flex;gap:8px;flex-wrap:wrap}
-
-/* COLUMN TOGGLES */
 .ctog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:.8rem}
 .ctog{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);cursor:pointer;transition:all .12s;user-select:none}
 .ctog:hover{border-color:var(--acc)}
@@ -163,8 +141,6 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
 .tog::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left .2s}
 .ctog.on .tog{background:var(--grn)}
 .ctog.on .tog::after{left:18px}
-
-/* TOAST */
 .toast{position:fixed;bottom:1.4rem;right:1.4rem;background:var(--nvy);color:#fff;font-size:.91rem;padding:11px 20px;border-radius:var(--r);opacity:0;pointer-events:none;transition:opacity .2s;font-family:var(--f);z-index:9999;font-weight:700;max-width:300px}
 .toast.show{opacity:1}
 </style>
@@ -217,7 +193,7 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
     <div class="szone" onclick="document.getElementById('finp').click()">
       <div class="sico">&#128247;</div>
       <h3>Upload Receipt Image</h3>
-      <p>OCR reads text directly from your receipt — no internet or AI needed</p>
+      <p>OCR reads text directly from your receipt</p>
       <input type="file" id="finp" accept="image/*" onchange="startOCR(this)"/>
     </div>
     <div id="scout"></div>
@@ -242,10 +218,9 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
 
   <!-- SETTINGS -->
   <div id="settings" class="sec">
-
     <div class="sc">
       <h3>&#128209; Google Sheets — Current URL</h3>
-      <p style="font-size:.9rem;color:var(--mut);margin-bottom:.8rem">To change the Sheet URL, edit the <strong>SHEET_URL</strong> variable at the top of the HTML file (line 1 of the script section).</p>
+      <p style="font-size:.9rem;color:var(--mut);margin-bottom:.8rem">To change the Sheet URL, edit the <strong>SHEET_URL</strong> variable at the top of the script section in this HTML file.</p>
       <div style="background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;font-family:monospace;font-size:.82rem;color:var(--mut);word-break:break-all" id="url-display"></div>
       <div style="margin-top:1rem" class="brow">
         <button class="btn bo" onclick="testConn()">&#10003; Test Connection</button>
@@ -270,17 +245,15 @@ tfoot .gt{color:var(--acc);font-size:1rem;padding-right:13px}
       </div>
       <input type="file" id="impf" accept=".json" style="display:none" onchange="doImport(this)"/>
     </div>
-
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 // ╔══════════════════════════════════════════════════════════╗
-// ║  EDIT THIS LINE WITH YOUR GOOGLE APPS SCRIPT URL        ║
-// ║  Replace the URL between the quotes below               ║
+// ║  PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE         ║
 // ╚══════════════════════════════════════════════════════════╝
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxhIhrKf38yp5LvuR4i_-uBWKjkLcaR0ewQDthESZyqejwcwgNSDao5Y2QuzW0EKv0I/exec';
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxppNjQybrDMST8z4Hcbw50qsutC8C5aVw4E7of4dtjpEHcgOLH38Eqv9aBj3VdB_N3/exec';
 
 // ════════════════════════════════════════════════════════════
 // DATA
@@ -341,7 +314,6 @@ function renderWeek(){
   var cats  = activeCats();
   document.getElementById('wlbl').textContent = fmtWk(curMon);
 
-  // Header
   var thead = document.getElementById('thead');
   thead.innerHTML = '';
   var hr = document.createElement('tr');
@@ -383,7 +355,6 @@ function renderWeek(){
     tr.appendChild(tdT); tbody.appendChild(tr);
   });
 
-  // Footer
   var tfoot = document.getElementById('tfoot'); tfoot.innerHTML='';
   var fr = document.createElement('tr');
   var fl = document.createElement('td'); fl.textContent='Week Total'; fr.appendChild(fl);
@@ -409,34 +380,14 @@ function renderMets(cats, colT, grand){
 }
 
 // ════════════════════════════════════════════════════════════
-// JSONP — sends data to Google Sheets
+// SHEET SYNC — uses POST with no-cors (same as Bazro Fresh)
 // ════════════════════════════════════════════════════════════
-var _cbN = 0;
-function jsonpCall(params){
-  return new Promise(function(resolve,reject){
-    var cbName = '_gscb'+(++_cbN);
-    var timer  = setTimeout(function(){
-      delete window[cbName];
-      var s=document.getElementById(cbName); if(s)s.remove();
-      reject(new Error('Timed out — check your Script URL is correct and deployed'));
-    }, 15000);
-
-    window[cbName] = function(data){
-      clearTimeout(timer); delete window[cbName];
-      var s=document.getElementById(cbName); if(s)s.remove();
-      resolve(data);
-    };
-
-    params.callback = cbName;
-    var qs = Object.keys(params).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(params[k]) }).join('&');
-    var script = document.createElement('script');
-    script.id  = cbName;
-    script.src = SHEET_URL+'?'+qs;
-    script.onerror = function(){
-      clearTimeout(timer); delete window[cbName]; script.remove();
-      reject(new Error('Script failed to load — URL may be wrong'));
-    };
-    document.head.appendChild(script);
+function postToSheet(payload){
+  return fetch(SHEET_URL, {
+    method: 'POST',
+    mode:   'no-cors',
+    headers:{ 'Content-Type': 'application/json' },
+    body:   JSON.stringify(payload)
   });
 }
 
@@ -446,17 +397,15 @@ function setSyncUI(state,text){
 }
 
 // ════════════════════════════════════════════════════════════
-// SAVE + SYNC TO SHEET
+// SAVE + SYNC
 // ════════════════════════════════════════════════════════════
 function saveWeek(){
   var w = wkKey(curMon);
 
-  // Read all inputs
   document.querySelectorAll('.ci2').forEach(function(inp){
     setCell(w, inp.dataset.day, inp.dataset.k, inp.value.trim());
   });
 
-  // Clean empty entries
   if(db[w]){
     Object.keys(db[w]).forEach(function(d){
       if(!Object.keys(db[w][d]).length) delete db[w][d];
@@ -470,16 +419,17 @@ function saveWeek(){
   setTimeout(function(){ btn.textContent='Save & Sync'; btn.className='btn br' }, 2500);
   toast('Saved locally ✓');
 
-  if(!SHEET_URL || SHEET_URL.indexOf('YOUR_ID')>-1){
+  if(!SHEET_URL || SHEET_URL.indexOf('YOUR_SCRIPT_ID')>-1){
     toast('Edit SHEET_URL in the HTML to enable sync');
+    setSyncUI('err','No Sheet URL');
     return;
   }
 
   setSyncUI('busy','Syncing...');
 
-  var dates = wkDates(curMon);
-  var chain = Promise.resolve();
-  var ok=0, fail=0;
+  var dates  = wkDates(curMon);
+  var chain  = Promise.resolve();
+  var count  = 0;
 
   dates.forEach(function(date){
     var d       = ds(date);
@@ -487,24 +437,25 @@ function saveWeek(){
     if(!dayData || !Object.keys(dayData).length) return;
 
     var total = 0;
-    var row   = { date: d };
-    ALL_CATS.forEach(function(c){ row[c.key]=dayData[c.key]||0; total+=dayData[c.key]||0 });
-    row.total = total;
+    var rowObj = { date: d };
+    ALL_CATS.forEach(function(c){ rowObj[c.key] = dayData[c.key]||0; total += dayData[c.key]||0; });
+    rowObj.total = total;
 
     chain = chain.then(function(){
-      return jsonpCall({ action:'save', row: JSON.stringify(row) })
-        .then(function(res){
-          if(res && res.success) ok++;
-          else { fail++; console.warn('Sheet error for '+d+':', res); }
-        })
-        .catch(function(e){ fail++; console.error('Sync error for '+d+':', e.message); });
+      count++;
+      return postToSheet({ action:'save', row: rowObj })
+        .catch(function(e){ console.error('Sync error for '+d+':', e.message); });
     });
   });
 
   chain.then(function(){
-    if(fail===0 && ok>0){ setSyncUI('ok','Synced ✓'); toast('Synced to Google Sheets ✓') }
-    else if(ok===0 && fail===0){ setSyncUI('ok','No new data') }
-    else { setSyncUI('err', fail+' failed'); toast(fail+' rows failed — see console') }
+    if(count > 0){
+      setSyncUI('ok','Synced ✓');
+      toast('Synced '+count+' day(s) to Google Sheets ✓');
+    } else {
+      setSyncUI('ok','No new data');
+      toast('Nothing to sync');
+    }
   });
 }
 
@@ -528,18 +479,20 @@ function showCurrentURL(){
   if(el) el.textContent = SHEET_URL;
 }
 
+// Test connection: POST a ping — no-cors means we can't read the response,
+// but if it doesn't throw the URL is reachable
 function testConn(){
   var msg = document.getElementById('tmsg');
-  msg.style.display='block'; msg.style.background='#fffbe6'; msg.style.border='1px solid #f0c040'; msg.style.color='#7a6000';
-  msg.textContent = 'Testing connection...';
+  msg.style.display='block';
+  msg.style.background='#fffbe6'; msg.style.border='1px solid #f0c040'; msg.style.color='#7a6000';
+  msg.textContent = 'Sending test ping...';
   setSyncUI('busy','Testing...');
-  jsonpCall({ action:'getAll' })
-    .then(function(res){
-      if(res && res.success){
-        msg.style.background='#edfaf3'; msg.style.border='1px solid #a3e4c1'; msg.style.color='#1a7a3a';
-        msg.textContent = '✓ Connected! Found '+res.rows.length+' rows in your Sheet.';
-        setSyncUI('ok','Connected ✓');
-      } else throw new Error(res && res.error ? res.error : 'Unknown error');
+
+  postToSheet({ action:'ping' })
+    .then(function(){
+      msg.style.background='#edfaf3'; msg.style.border='1px solid #a3e4c1'; msg.style.color='#1a7a3a';
+      msg.textContent = '✓ Request reached Google — check your Sheet to confirm rows are being written.';
+      setSyncUI('ok','Reachable ✓');
     })
     .catch(function(e){
       msg.style.background='#fdf0ef'; msg.style.border='1px solid #f5b7b1'; msg.style.color='#a93226';
@@ -548,21 +501,44 @@ function testConn(){
     });
 }
 
+// Pull uses JSONP GET (readable response, no CORS issue on GET)
 function pullSheet(){
+  if(!SHEET_URL || SHEET_URL.indexOf('YOUR_SCRIPT_ID')>-1){
+    toast('Edit SHEET_URL first'); return;
+  }
   setSyncUI('busy','Pulling...'); toast('Pulling from Sheet...');
-  jsonpCall({ action:'getAll' })
-    .then(function(res){
-      if(res && res.success){
-        res.rows.forEach(function(row){
-          if(!row.date) return;
-          var m=getMonday(new Date(row.date)), w=wkKey(m), d=row.date;
-          ALL_CATS.forEach(function(c){ if(row[c.key]) setCell(w,d,c.key,row[c.key]) });
-        });
-        saveDB(); renderWeek();
-        setSyncUI('ok','Pulled ✓'); toast('Pulled '+res.rows.length+' rows ✓');
-      } else throw new Error(res && res.error ? res.error : 'Unknown');
-    })
-    .catch(function(e){ setSyncUI('err','Failed'); toast('Pull failed: '+e.message) });
+
+  var cbName = '_gspull'+Date.now();
+  var timer = setTimeout(function(){
+    delete window[cbName];
+    var s=document.getElementById(cbName); if(s)s.remove();
+    setSyncUI('err','Timed out'); toast('Pull timed out — check your Script URL');
+  }, 15000);
+
+  window[cbName] = function(res){
+    clearTimeout(timer); delete window[cbName];
+    var s=document.getElementById(cbName); if(s)s.remove();
+    if(res && res.success){
+      res.rows.forEach(function(row){
+        if(!row.date) return;
+        var m=getMonday(new Date(row.date)), w=wkKey(m), d=row.date;
+        ALL_CATS.forEach(function(c){ if(row[c.key]) setCell(w,d,c.key,row[c.key]) });
+      });
+      saveDB(); renderWeek();
+      setSyncUI('ok','Pulled ✓'); toast('Pulled '+res.rows.length+' rows ✓');
+    } else {
+      setSyncUI('err','Failed'); toast('Pull failed');
+    }
+  };
+
+  var script = document.createElement('script');
+  script.id  = cbName;
+  script.src = SHEET_URL+'?action=getAll&callback='+cbName;
+  script.onerror = function(){
+    clearTimeout(timer); delete window[cbName]; script.remove();
+    setSyncUI('err','Failed'); toast('Pull failed — check URL');
+  };
+  document.head.appendChild(script);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -809,7 +785,7 @@ function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; 
 // INIT
 // ════════════════════════════════════════════════════════════
 document.getElementById('dchip').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-if(SHEET_URL && SHEET_URL.indexOf('YOUR_ID')===-1) setSyncUI('ok','Sheet URL set');
+if(SHEET_URL && SHEET_URL.indexOf('YOUR_SCRIPT_ID')===-1) setSyncUI('ok','Sheet URL set');
 else setSyncUI('err','No Sheet URL');
 renderWeek();
 </script>
